@@ -9,9 +9,11 @@ const bcrypt = require('bcrypt');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve all static files from the project root
-app.use(express.static('C:/Users/ARVIN/Desktop/CSS152L'));
-console.log('Serving static files from: C:/Users/ARVIN/Desktop/CSS152L');
+// --- STATIC FILES (must be before routes!) ---
+//const staticPath = path.join(__dirname, '../../../');
+const staticPath = path.join(__dirname, '../../../../');
+console.log('Serving static files from:', staticPath);
+app.use(express.static(staticPath));
 
 console.log("=== THIS IS THE CORRECT SERVER FILE ===");
 

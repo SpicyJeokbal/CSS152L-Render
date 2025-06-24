@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <style>
         body {
             margin: 0;
@@ -70,7 +71,7 @@
         }
         .best-seller {
             width: 100%;
-            height: 350px;
+            height: 450px;
             /* background: #FF6060; */
             position: relative;
             margin-top: 5px;
@@ -320,18 +321,22 @@
     
     <!-- HEADER (Toolbar) -->
     <div class="header">
-        <!-- hamburger -->
-        <div style="width: 40px; height: 40px; position: absolute; top: 22px; left: 41px; display: flex; align-items: center; justify-content: center;">
+        <!-- hamburger/logo -->
+        <a href="../MAIN PAGE/sample.html" style="width: 40px; height: 40px; position: absolute; top: 22px; left: 41px; display: flex; align-items: center; justify-content: center;">
             <img src="../images/Adobe Express - file (1).png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;"/>
-        </div>
+        </a>
         
-        <!-- search bar -->
-        <div style="width: 543px; padding: 12px 16px; position: absolute; top: 22px; left: 688px; background: white; border-radius: 9999px; outline: 1px #D9D9D9 solid; display: flex; align-items: center; gap: 8px;">
-        <div style="flex: 1 1 0;"></div>
-        <div style="width: 16px; height: 16px; position: relative;"></div>
-        </div>
+        <!-- search bar replaced with navigation links -->
+        <nav style="position: absolute; top: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 80px; align-items: center;">
+            <a href="../MENU/what'snew.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">WHAT'S NEW</a>
+            <a href="../MENU/menu.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">MENU</a>
+            <a href="../SOFT_ENG_PROJECT_HTML/frontend_wings_things/wings.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">WINGS</a>
+            <a href="#things" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">THINGS</a>
+            <a href="#bulk-order" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">BULK ORDER</a>
+            <a href="../MAIN PAGE/sample.html#about-section" id="about-us-link" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">ABOUT US</a>
+        </nav>
+        <!-- removed search bar -->
 
-    
     </div>
 
     <div class="main-content">
@@ -350,10 +355,12 @@
     <!-- Cards Section -->
     <div style="position: relative; height: 600px; margin-top: 40px;">
         <div class="card-container" style="position: absolute; left: 262px; top: 0;">
-            <img class="card-image" style="width: 350px; height: 428px;" src="../images/main page/117944378_10158540755414547_1326503116057793675_n.jpg" />
-            <div class="card-label" style="left: 65px; top: 368px; height: 35px;">
-                <div class="label-text" style="font-size: 16px; font-family: 'Montserrat', sans-serif;">WHAT'S NEW</div>
-            </div>
+            <a href="../MENU/what'snew.html" style="text-decoration: none;">
+                <img class="card-image" style="width: 350px; height: 428px;" src="../images/main page/117944378_10158540755414547_1326503116057793675_n.jpg" />
+                <div class="card-label" style="left: 65px; top: 368px; height: 35px;">
+                    <div class="label-text" style="font-size: 16px; font-family: 'Montserrat', sans-serif;">WHAT'S NEW</div>
+                </div>
+            </a>
         </div>
 
         <div class="card-container" style="position: absolute; left: 626px; top: 0;">
@@ -390,106 +397,70 @@
     </div>
 
     <!-- BEST SELLER -->
-    <div class="best-seller" style="position: relative; top: 0; margin-top: 0px; display: flex; align-items: center;">
+    <div class="best-seller" style="position: relative; top: 0; margin-top: 0px; display: flex; align-items: center; height: 450px;">
         <div style="position: absolute; left: 200px; top: 50%; transform: translateY(-50%); z-index: 3;">
             <div style="font-family: 'Montserrat', sans-serif; font-size: 80px; color: rgb(0, 0, 0); line-height: 1;">
                 <span style="font-weight: 400;">BEST</span><br/>
                 <span style="font-weight: 700;">SELLER</span>
             </div>
         </div>
-        <div class="carousel-wrapper" style="margin-left: 600px; width: 900px; overflow: hidden; position: relative; height: 350px;">
-            <div class="carousel-seamless" style="display: flex; align-items: center; height: 100%;">
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/485141724_10162314528994547_3645822391865856742_n.jpg" />
-                    <div class="item-label">
-                        <div class="title">GO SOLO</div>
-                        <div class="subtitle">ORIGINAL CHICKEN FINGERS</div>
+        <div style="margin-left: 600px; width: 900px; overflow: hidden; position: relative; height: 450px;">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                    <li data-target="#myCarousel" data-slide-to="4"></li>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="../images/best seller/NY_STYLE_CHEESEBURGER.jpg" alt="Go Solo" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>NY STYLE</h3>
+                            <p>CHEESEBURGER</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/NACHOS.jpg" alt="Make it Double" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>NACHOS</h3>
+                            <p>ORIGINAL CHICKEN FINGERS</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/FRIED_CHICKEN_PLATE.jpg" alt="Cheeseburger" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>FRIED CHICKEN</h3>
+                            <p>PLATE</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/CHICKEN_SANDWICHES_DALAWA.jpg" alt="Classic Cheeseburger" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>CHICKEN SANDWICH</h3>
+                            <p>DALAWA</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/CAJUN_PASTIU.jpg" alt="New York's Finest" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>CAJU PASTIU</h3>
+                            <p>PREMIUM BURGER</p>
+                        </div>
                     </div>
                 </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/1485141724_10162314528994547_3645822391865856742_n.jpg" />
-                    <div class="item-label">
-                        <div class="title">MAKE IT DOUBLE</div>
-                        <div class="subtitle">ORIGINAL CHICKEN FINGERS</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/117944378_10158540755414547_1326503116057793675_n.jpg" />
-                    <div class="item-label">
-                        <div class="title">CHEESEBURGER</div>
-                        <div class="subtitle">NY STYLE</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/CLASSIC_CHEESEBURGER.jpg" />
-                    <div class="item-label">
-                        <div class="title">CLASSIC</div>
-                        <div class="subtitle">CHEESEBURGER</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/CLASSIC_CHEESEBURGER.jpg" />
-                    <div class="item-label">
-                        <div class="title">CLASSIC</div>
-                        <div class="subtitle">CHEESEBURGER</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/CLASSIC_CHEESEBURGER.jpg" />
-                    <div class="item-label">
-                        <div class="title">CLASSIC</div>
-                        <div class="subtitle">CHEESEBURGER</div>
-                    </div>
-                </div>
-
-
-
-                <!-- Duplicate for seamless loop -->
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/485141724_10162314528994547_3645822391865856742_n.jpg" />
-                    <div class="item-label">
-                        <div class="title">GO SOLO</div>
-                        <div class="subtitle">ORIGINAL CHICKEN FINGERS</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/1485141724_10162314528994547_3645822391865856742_n.jpg" />
-                    <div class="item-label">
-                        <div class="title">MAKE IT DOUBLE</div>
-                        <div class="subtitle">ORIGINAL CHICKEN FINGERS</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/117944378_10158540755414547_1326503116057793675_n.jpg" />
-                    <div class="item-label">
-                        <div class="title">CHEESEBURGER</div>
-                        <div class="subtitle">NY STYLE</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/CLASSIC_CHEESEBURGER.jpg" />
-                    <div class="item-label">
-                        <div class="title">CLASSIC</div>
-                        <div class="subtitle">CHEESEBURGER</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/CLASSIC_CHEESEBURGER.jpg" />
-                    <div class="item-label">
-                        <div class="title">CLASSIC</div>
-                        <div class="subtitle">CHEESEBURGER</div>
-                    </div>
-                </div>
-                <div class="carousel-card-bg" style="margin: 0 24px; min-width: 458px; height: 303px;">
-                    <img style="width: 444px; height: 275px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.10);" src="../images/main page/CLASSIC_CHEESEBURGER.jpg" />
-                    <div class="item-label">
-                        <div class="title">CLASSIC</div>
-                        <div class="subtitle">CHEESEBURGER</div>
-                    </div>
-                </div>
-
-
-
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>
@@ -721,5 +692,28 @@
         }
       }
     </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const aboutUsLink = document.getElementById('about-us-link');
+        if (aboutUsLink) {
+          aboutUsLink.addEventListener('click', function(e) {
+            // Check if already on the main page (sample.html)
+            if (window.location.pathname.includes('sample.html')) {
+              e.preventDefault();
+              const aboutSection = document.getElementById('about-section');
+              if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+            // If not on main page, let the link work as normal
+          });
+        }
+      });
+    </script>
+
+    <!-- Add Bootstrap JS and jQuery before </body> if not present -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </body>
 </html>

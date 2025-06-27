@@ -651,7 +651,7 @@
     // Load inventory items when page loads
     async function loadInventoryItems() {
       try {
-        const response = await fetch('/api/inventory');
+        const response = await fetch('https://css152l-2.onrender.com');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -693,7 +693,7 @@
       const price = document.getElementById('itemPrice').value;
      
       try {
-        const response = await fetch('/api/inventory', {
+        const response = await fetch('https://css152l-2.onrender.com', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -726,7 +726,7 @@
       const price = document.getElementById('editItemPrice').value;
      
       try {
-        const response = await fetch(`/api/inventory/${id}`, {
+        const response = await fetch(`https://css152l-2.onrender.com/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
@@ -758,7 +758,7 @@
       const deletePromises = Array.from(selectedRows).map(async (row) => {
         const id = row.querySelector('.edit-btn').dataset.id;
         try {
-          const response = await fetch(`/api/inventory/${id}`, {
+          const response = await fetch(`https://css152l-2.onrender.com/${id}`, {
             method: 'DELETE'
           });
           if (!response.ok) {

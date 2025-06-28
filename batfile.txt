@@ -1,3 +1,25 @@
+@echo off
+cd /d "%~dp0main\SOFT_ENG_PROJECT_HTML\backend_wings_things"
+call npm install
+start "" http://localhost:3000/main/INVENTORY/login/login.html
+call npm start
+pause
+
+
+c::project
+|-main
+    |-INVENTORY
+        |-inventory
+            |-Inventory.html
+        |-login
+            |-login.html
+    |-SOFT_ENG_PROJECT_HTML
+        |-backend_wings_things
+            |-server.js
+
+
+
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -22,7 +44,7 @@ app.use(cors({
   origin: [
     'http://127.0.0.1:5502',
     'http://localhost:5502',
-    'http://127.0.0.1:3001',  
+    'http://127.0.0.1:3001',
     'http://localhost:3001',
     'http://localhost:3000'
   ],
@@ -338,3 +360,4 @@ app.listen(PORT, () => {
   console.log('- DELETE /api/inventory/:id');
   console.log('- GET /test');
 });
+

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Merriweather', serif;
+        }
+        .header {
+            width: 100%;
+            height: 84px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            background: rgba(255, 255, 255, 0.90);
+        }
+        .main-content {
+            padding-top: 84px; /* Add padding equal to header height */
+        }
+        
+        .scroll-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 56px;
+            height: 56px;
+            background: #00809D;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 9999;
+        }
+        .scroll-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="width: 100%; min-height: 100vh; position: relative; background: #F8ECEC; overflow-x: hidden;">
+    
+    <!-- HEADER (Toolbar) -->
+    <div class="header">
+        <!-- hamburger/logo -->
+        <a href="/main/FRONT_END/main.html" style="width: 40px; height: 40px; position: absolute; top: 22px; left: 41px; display: flex; align-items: center; justify-content: center;">
+            <img src="../images/logo2.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;"/>
+        </a>
+        
+        <!-- search bar replaced with navigation links -->
+        <nav style="position: absolute; top: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 80px; align-items: center;">
+            <a href="/main/FRONT_END/what'snew.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">WHAT'S NEW</a>
+            <a href="/main/FRONT_END/menu.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">MENU</a>
+            <a href="/main/FRONT_END/wings.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">WINGS</a>
+            <a href="#things" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">THINGS</a>
+            <a href="#bulk-order" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">BULK ORDER</a>
+            <a href="/main/FRONT_END/main.html#about-section" id="about-us-link" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">ABOUT US</a>
+        </nav>
+        
+    </div>
+
+    <!-- MAIN IMAGE SECTION -->
+    <div style="position: relative;">
+        <img src="/main/images/main page/header.jpg"
+            style="width: 100%; height: 540px; object-fit: cover; position: relative; z-index: 1;" />
+        <div style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); z-index: 2; text-align: center;">
+            <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 20px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin: 0; letter-spacing: 2px;">
+                WHERE FLAVOR MEETS FIRE
+            </h1>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- MENU LIST -->
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 50px; padding: 50px 0;">
+            <div style="display: flex; justify-content: center; gap: 100px;">
+                <img style="width: 716px; height: 965px;" src="../images/what's new/WEEKDAY_BOOSTER.jpg" />
+                <img style="width: 716px; height: 965px;" src="../images/what's new/SPARKLE_OF_LOVE_PROMO.jpg" />
+            </div>
+            <div style="display: flex; justify-content: center; gap: 100px;">
+                <img style="width: 716px; height: 965px;" src="../images/what's new/SOUTHERN_FRIED_CHICKEN_SANDWICH_PRICE.jpg" />
+                <img style="width: 716px; height: 965px;" src="../images/what's new/SOUTHERN_FRIED_CHICKEN_SANDWICH_PRICE_2.jpg" />
+            </div>
+            <div style="display: flex; justify-content: center; gap: 100px;">
+                <img style="width: 716px; height: 965px;" src="../images/what's new/SOUTHERN_FRIED_CHICKEN_PLATE.jpg" />
+                <img style="width: 716px; height: 965px;" src="../images/what's new/NY_STYLE_CHEESEBURGER_PRICE.jpg" />
+            </div>
+            <div style="display: flex; justify-content: center; gap: 100px;">
+                <img style="width: 716px; height: 965px;" src="../images/what's new/MOTHER'S_DAY_PROMO.jpg" />
+                <img style="width: 716px; height: 965px;" src="../images/what's new/HOMERUN_MEALS.jpg" />
+            </div>
+            <div style="display: flex; justify-content: center; gap: 100px;">
+                <img style="width: 716px; height: 965px;" src="../images/what's new/FATHERS_MONTH_PROMO.jpg" />
+                <img style="width: 716px; height: 965px;" src="../images/what's new/CLASSIC_CHEESEBURGER_PRICE.jpg" />
+            </div>
+            <div style="display: flex; justify-content: center; gap: 100px;">
+                <img style="width: 716px; height: 965px;" src="../images/what's new/BONELESS_CHICKEN.jpg" />
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer style="background-color: #00809D; color: white; padding: 40px 20px;">
+        <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+            
+            <!-- Logo -->
+            <div style="flex: 1; min-width: 150px; text-align: center;">
+                <img src="../images/logo.png" alt="B Logo" style="height: 250px;">
+            </div>
+            
+            <!-- Socials / Contact Info -->
+            <div style="flex: 1; min-width: 250px; text-align: center;">
+                <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700;">GET IN TOUCH</h4>
+                
+                <!-- Facebook -->
+                <p style="margin: 10px 0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 5 3.66 9.13 8.44 9.88v-6.99h-2.54V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56V12h2.76l-.44 2.89h-2.32v6.99C18.34 21.13 22 17 22 12z" fill="#fff"/>
+                    </svg>
+                    <a href="https://www.facebook.com/bwntPH/" target="_blank" style="color: white; text-decoration: underline;">
+                        Follow us on Facebook
+                    </a>
+                </p>
+                
+                <!-- Instagram -->
+                <p>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zm-5 3c-2.76 0-5 2.24-5 5s2.24 5 5 5a5 5 0 100-10zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3a3 3 0 110-6zm4.5-3a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" fill="#fff"/>
+                    </svg>
+                    <a href="https://www.instagram.com/bwntph/?fbclid=IwY2xjawLM055leHRuA2FlbQIxMABicmlkETFyS3VGd3Q3bnJwRW9jaU1EAR4-yJ_e531h3W-Csfir6bSqwjT1ARzkurkUULt5thDLrj2lZ0t1yK8ybLsZcQ_aem_qgkWY_XraOSRrsBI6e16LA#" target="_blank" style="color: white; text-decoration: underline;">
+                        Follow us on Instagram
+                    </a>
+                </p>
+
+                <!-- TikTok -->
+                <p>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M12 2v2c1.657 0 3 1.343 3 3h2c0-2.757-2.243-5-5-5zM9 4c-3.866 0-7 3.134-7 7s3.134 7 7 7c2.387 0 4.5-1.19 5.775-3.018l-1.65-1.158A4.99 4.99 0 019 16c-2.757 0-5-2.243-5-5s2.243-5 5-5V4z" fill="#fff"/>
+                    </svg>
+                    <a href="https://www.tiktok.com/@bwntph?fbclid=IwY2xjawLM2MRleHRuA2FlbQIxMABicmlkETFyS3VGd3Q3bnJwRW9jaU1EAR4HOBenXXn82ZpXL4shKyCvFS-hBMNbDX2XdY-7Dq4PHkTlNUGWNOU9pkPGWw_aem_TZR-uWEMgpBnfjjSUVCfTw" target="_blank" style="color: white; text-decoration: underline;">
+                        Follow us on TikTok
+                    </a>
+                </p>
+            </div>
+            
+            <!-- Newsletter Signup -->
+            <div style="flex: 1; min-width: 280px; text-align: center;">
+                <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700;">NEWSLETTER SIGN-UP</h4>
+                <p style="font-size: 14px;">Subscribe to our newsletter to receive our offers</p>
+                <form id="footer-newsletter-form" style="margin-top: 10px; display: flex; justify-content: center;">
+                    <input type="email" name="email" placeholder="Your email address" required
+                        style="padding: 10px; border-radius: 9999px 0 0 9999px; border: none; outline: none; width: 200px;">
+                    <button type="submit"
+                            style="padding: 10px 20px; background: #FF6060; color: white; border: none; border-radius: 0 9999px 9999px 0; font-weight: 600; cursor: pointer;">
+                        Subscribe
+                    </button>
+                </form>
+                <p id="footer-newsletter-msg" style="margin-top: 10px; font-size: 13px;"></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="14" r="14" fill="none"/>
+            <path d="M14 20V8M14 8L8 14M14 8L20 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <script>
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

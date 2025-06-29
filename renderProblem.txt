@@ -1,0 +1,32 @@
+How to Fix This
+1. Provision a PostgreSQL Database on Render
+Go to your Render dashboard.
+Create a new PostgreSQL database (Render has a "Databases" section for this).
+Once created, Render will give you a DATABASE_URL (it looks like: postgres://username:password@host:port/dbname).
+
+
+postgresql://css152l_postgres_user:oSjk8wFwZduFgN5u32SktVs4QGLx4ihG@dpg-d1f26gumcj7s739a2uig-a/css152l_postgres
+
+
+
+
+2. Set the DATABASE_URL Environment Variable
+In your Render backend service settings, add an environment variable:
+Key: DATABASE_URL
+Value: (paste the full connection string from your Render database)
+
+3. Update Your Code (if needed)
+Your backend code should already be using process.env.DATABASE_URL to connect to the database (most Node.js/pg setups do this by default).
+If not, update your db.js or wherever you create your pool to use process.env.DATABASE_URL.
+
+4. Deploy/Restart Your Backend
+After setting the environment variable, redeploy or restart your backend service on Render.
+5. Initialize Your Database
+If your database is empty, you need to run your SQL scripts (like create_inventory_table.sql) to create the necessary tables.
+You can do this using a tool like pgAdmin, DBeaver, or the Render database web console.
+
+
+
+        const response = await fetch(BACKEND_URL);
+
+        const response = await fetch('/api/inventory');

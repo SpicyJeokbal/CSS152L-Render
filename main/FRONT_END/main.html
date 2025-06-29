@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: 'Merriweather', serif;
+        }
+        .header {
+            width: 100%;
+            height: 84px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000 !important;
+            background: rgba(255, 255, 255, 0.90);
+        }
+        .main-content {
+            padding-top: 84px; /* Add padding equal to header height */
+        }
+        .card-container {
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .card-container:hover {
+            transform: scale(1.02);
+        }
+        .card-image {
+            border-radius: 25px;
+            transition: filter 0.3s ease;
+        }
+        .card-container:hover .card-image {
+            filter: blur(1.2px);
+        }
+        .card-label {
+            width: 180px;
+            height: 50px;
+            position: absolute;
+            background: #143663;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .card-container:hover .card-label {
+            transform: scale(1.1);
+            background: #9e0909;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .label-text {
+            text-align: center;
+            color: rgb(255, 255, 255);
+            font-size: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            line-height: 20px;
+            transition: all 0.3s ease;
+        }
+        .card-container:hover .label-text {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .best-seller {
+            width: 100%;
+            height: 450px;
+            /* background: #FF6060; */
+            position: relative;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        .carousel-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .carousel-item {
+            position: absolute;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateX(-50%) scale(0.8);
+        }
+        .carousel-item img {
+            border-radius: 15px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .carousel-item .item-label {
+            position: static;
+            margin-top: 18px;
+            opacity: 1;
+            background: none;
+            color: #222;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            text-align: center;
+        }
+        .carousel-item .item-label .title {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 2px;
+            width: 100%;
+            text-align: center;
+        }
+        .carousel-item .item-label .subtitle {
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            width: 100%;
+            text-align: center;
+        }
+        .carousel-item.active {
+            z-index: 2;
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+        .carousel-item.active img {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .carousel-item.active .item-label {
+            opacity: 1;
+            bottom: -60px;
+        }
+        .carousel-item:not(.active) {
+            filter: blur(2px);
+            opacity: 0.7;
+        }
+        .carousel-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 3;
+            margin-top: 40px;
+        }
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .carousel-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* About section elements - initially hidden */
+        .about-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .about-element.left {
+            transform: translateX(-30px);
+        }
+
+        .about-element.right {
+            transform: translateX(30px);
+        }
+
+        /* Animated state classes */
+        .about-element.animate {
+            opacity: 1;
+            transform: translateY(0) translateX(0);
+        }
+
+        .about-element.animate.delay-1 {
+            transition-delay: 0.2s;
+        }
+
+        .about-element.animate.delay-2 {
+            transition-delay: 0.4s;
+        }
+
+        .about-element.animate.delay-3 {
+            transition-delay: 0.6s;
+        }
+
+        .about-element.animate.delay-4 {
+            transition-delay: 0.8s;
+        }
+
+        .about-element.animate.delay-5 {
+            transition-delay: 1s;
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 56px;
+            height: 56px;
+            background: #00809D;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 9999;
+        }
+        .scroll-to-top.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .carousel-card-bg {
+            background: #FF7C7C;
+            border-radius: 40px;
+            padding: 32px 24px 24px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            width: 480px;
+            height: 350px;
+            position: relative;
+        }
+        .carousel-card-bg img {
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+        }
+        .carousel-card-bg .item-label {
+            text-align: center;
+            width: 100%;
+        }
+        .carousel-card-bg .item-label .title {
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            margin-bottom: 0;
+        }
+        .carousel-card-bg .item-label .subtitle {
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+        .carousel-wrapper {
+            overflow: hidden;
+            width: 900px;
+            height: 350px;
+            position: relative;
+        }
+        .carousel-seamless {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            animation: seamless-scroll 18s linear infinite;
+        }
+        @keyframes seamless-scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-1440px); }
+        }
+
+        /* --- Cart Styles from wings.html --- */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -370px;
+            width: 350px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -2px 0 16px rgba(0,0,0,0.13);
+            transition: right 0.3s cubic-bezier(.4,2,.6,1);
+            z-index: 2000 !important;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .cart-sidebar.open { right: 0; }
+        .cart-header { display: flex; align-items: center; gap: 12px; padding: 24px 24px 16px 24px; background: #9e0909; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 700; border-bottom: 1px solid #e5e5e5; position: relative; }
+        .cart-header .cart-icon { font-size: 1.7rem; margin-right: 8px; position: relative; }
+        .cart-header .cart-badge { position: absolute; top: 8px; right: 48px; background: #fff; color: #9e0909; font-size: 0.95rem; font-weight: 700; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
+        .cart-header .close-cart { position: absolute; right: 18px; top: 18px; font-size: 1.5rem; color: #fff; background: none; border: none; cursor: pointer; opacity: 0.7; transition: opacity 0.2s; }
+        .cart-header .close-cart:hover { opacity: 1; }
+        .cart-items { flex: 1; overflow-y: auto; padding: 18px 18px 0 18px; background: #faf9f9; scrollbar-width: thin; scrollbar-color: #9e0909 #f3eaea; }
+        .cart-items::-webkit-scrollbar { width: 7px; }
+        .cart-items::-webkit-scrollbar-thumb { background: #9e0909; border-radius: 6px; }
+        .cart-items::-webkit-scrollbar-track { background: #f3eaea; }
+        .cart-item { display: flex; align-items: center; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(156,9,9,0.07); margin-bottom: 18px; padding: 12px 10px; gap: 12px; position: relative; }
+        .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1.5px solid #f3eaea; background: #f8ecec; }
+        .cart-item-details { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+        .cart-item-name { font-size: 1.08rem; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+        .cart-item-meta { font-size: 0.98rem; color: #666; margin-bottom: 2px; }
+        .cart-item-price { font-size: 1.08rem; font-weight: 700; color: #9e0909; }
+        .cart-item-remove { background: #fff; color: #9e0909; border: 1.5px solid #9e0909; border-radius: 6px; padding: 6px 14px; font-size: 0.98rem; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: background 0.15s, color 0.15s; }
+        .cart-item-remove:hover { background: #9e0909; color: #fff; }
+        .cart-footer { padding: 20px 24px 24px 24px; background: #fff; border-top: 1px solid #eee; box-shadow: 0 -2px 8px rgba(156,9,9,0.04); position: sticky; bottom: 0; z-index: 2; }
+        .cart-footer .cart-total { font-size: 1.15rem; font-weight: 700; color: #1a1a1a; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .cart-footer .checkout-btn { width: 100%; padding: 14px 0; background: #9e0909; color: #fff; border: none; border-radius: 8px; font-size: 1.08rem; font-family: 'Montserrat', sans-serif; font-weight: 700; cursor: pointer; transition: background 0.18s; box-shadow: 0 2px 8px rgba(156, 9, 9, 0.08); letter-spacing: 0.01em; margin-top: 0; }
+        .cart-footer .checkout-btn:hover { background: #5c0000; }
+        #cartIconWrapper.cart-hidden { display: none !important; }
+        /* Modal styles */
+        .modal { display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+        .modal-content { background: #fff; border-radius: 16px; max-width: 480px; width: 100%; margin: 0 auto; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); padding: 0; position: relative; font-family: 'Montserrat', sans-serif; border: none; display: flex; flex-direction: column; align-items: stretch; }
+        .close { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; background: rgba(255, 255, 255, 0.9); border: none; border-radius: 6px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; color: #666; font-size: 18px; }
+        .close:hover { background: rgba(255, 255, 255, 1); }
+        .modal-left img { width: 100%; height: 240px; object-fit: cover; border-radius: 16px 16px 0 0; display: block; }
+        .modal-right { width: 100%; padding: 24px; font-family: 'Montserrat', sans-serif; display: flex; flex-direction: column; gap: 0; }
+        .modal-name { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 24px; text-align: left; margin-bottom: 8px; color: #1a1a1a; }
+        #modalDescription { color: #666; font-size: 14px; margin-bottom: 16px; font-family: 'Montserrat', sans-serif; }
+        #modalPrice { font-size: 28px; font-weight: 700; margin-bottom: 24px; color: #9e0909; text-align: left; }
+        .modal-section { margin-bottom: 24px; }
+        .modal-section strong { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 12px; display: block; }
+        .quantity-options, .type-options { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0; width: 100%; }
+        .quantity-options button, .type-options button { min-width: 70px; margin: 0; padding: 8px 16px; border: 1.5px solid #9e0909; border-radius: 6px; background: #fff; color: #9e0909; font-weight: 500; font-family: 'Montserrat', sans-serif; font-size: 14px; cursor: pointer; transition: all 0.15s ease; box-shadow: none; text-align: center; }
+        .quantity-options button.active, .type-options button.active { background: #9e0909; color: #fff; border: 1.5px solid #9e0909; }
+        .cart-control { display: flex; align-items: center; gap: 16px; margin-top: 0; font-family: 'Montserrat', sans-serif; justify-content: flex-start; }
+        .cart-control button { width: 36px; height: 36px; font-size: 18px; background-color: #fff; border: 1.5px solid #9e0909; border-radius: 6px; color: #9e0909; font-weight: 600; transition: all 0.15s ease; display: flex; align-items: center; justify-content: center; }
+        .cart-control input[type="number"] { width: 60px; height: 36px; text-align: center; font-size: 14px; font-weight: 500; padding: 0; border: 1.5px solid #9e0909; border-radius: 6px; background: #fff; color: #222; font-family: 'Montserrat', sans-serif; }
+        .add-to-cart-btn { width: 100%; max-width: 320px; margin: 24px auto 0 auto; box-sizing: border-box; padding: 14px; background: #9e0909; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: background 0.18s; box-shadow: 0 2px 8px rgba(156, 9, 9, 0.08); letter-spacing: 0.01em; display: block; }
+        .add-to-cart-btn:hover { background: #5c0000; }
+        #cartIconWrapper {
+            z-index: 2001 !important;
+        }
+    </style>
+</head>
+<body>
+    
+    <div style="width: 100%; min-height: 100vh; position: relative; background: #F8ECEC; overflow-x: hidden;">
+
+     
+
+    
+    <!-- HEADER (Toolbar) -->
+    <div class="header">
+        <!-- hamburger/logo -->
+        <a href="/main/FRONT_END/main.html" style="width: 40px; height: 40px; position: absolute; top: 22px; left: 41px; display: flex; align-items: center; justify-content: center;">
+            <img src="../images/logo2.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;"/>
+        </a>
+        
+        <!-- search bar replaced with navigation links -->
+        <nav style="position: absolute; top: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 80px; align-items: center;">
+            <a href="/main/FRONT_END/what'snew.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">WHAT'S NEW</a>
+            <a href="/main/FRONT_END/menu.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">MENU</a>
+            <a href="/main/FRONT_END/wings.html" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">WINGS</a>
+            <a href="#things" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">THINGS</a>
+            <a href="#bulk-order" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">BULK ORDER</a>
+            <a href="/main/FRONT_END/main.html#about-section" id="about-us-link" style="font-family: 'Montserrat', sans-serif; font-weight: 500; font-size: 18px; color: #1E1E1E; text-decoration: none;">ABOUT US</a>
+        </nav>
+        
+
+    </div>
+
+    <div class="main-content">
+        <!-- MAIN IMAGE SECTION -->
+        <div style="position: relative;">
+            <img src="/main/images/main page/header.jpg"
+                style="width: 100%; height: 540px; object-fit: cover; position: relative; z-index: 1;" />
+            <div style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); z-index: 2; text-align: center;">
+                <h1 style="font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 20px; color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin: 0; letter-spacing: 2px;">
+                    WHERE FLAVOR MEETS FIRE
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards Section -->
+    <div style="position: relative; height: 600px; margin-top: 40px;">
+        <div class="card-container" style="position: absolute; left: 262px; top: 0;">
+            <a href="../MENU/what'snew.html" style="text-decoration: none;">
+                <img class="card-image" style="width: 350px; height: 428px;" src="/main/images/main page/card1.jpg" />
+                <div class="card-label" style="left: 65px; top: 368px; height: 35px;">
+                    <div class="label-text" style="font-size: 16px; font-family: 'Montserrat', sans-serif;">WHAT'S NEW</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="card-container" style="position: absolute; left: 626px; top: 0;">
+            <a href="../MENU/menu.html" style="text-decoration: none;">
+                <img class="card-image" style="width: 342px; height: 195px;" src="/main/images/main page/card2.JPG" />
+                <div class="card-label" style="left: 81px; top: 145px; height: 35px;">
+                    <div class="label-text" style="font-size: 16px; font-family: 'Montserrat', sans-serif;">MENU</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="card-container" style="position: absolute; left: 982px; top: 0;">
+            <a href="wings.html">
+                <img class="card-image" style="width: 304px; height: 426px;" src="/main/images/main page/card3.jpg" />
+                <div class="card-label" style="left: 62px; top: 368px; height: 35px;">
+                    <div class="label-text" style="font-size: 16px; font-family: 'Montserrat', sans-serif;"">WINGS</div>
+                </div>
+            </a>
+        </div>
+
+        <div class="card-container" style="position: absolute; left: 1300px; top: 0;">
+            <img class="card-image" style="width: 304px; height: 426px;" src="/main/images/main page/card4.jpg" />
+            <div class="card-label" style="left: 62px; top: 368px; height: 35px;">
+                <div class="label-text" style="font-size: 16px; font-family: 'Montserrat', sans-serif;"">THINGS</div>
+            </div>
+        </div>
+
+        <div class="card-container" style="position: absolute; left: 626px; top: 224px;">
+            <img class="card-image" style="width: 342px; height: 204px;" src="/main/images/main page/card5.jpg" />
+            <div class="card-label" style="left: 81px; top: 144px; height: 35px;">
+                <div class="label-text" style="font-size: 16px; font-family: 'Montserrat', sans-serif;"">BULK ORDER</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BEST SELLER -->
+    <div class="best-seller" style="position: relative; top: 0; margin-top: 0px; display: flex; align-items: center; height: 450px;">
+        <div style="position: absolute; left: 200px; top: 50%; transform: translateY(-50%); z-index: 3;">
+            <div style="font-family: 'Montserrat', sans-serif; font-size: 80px; color: rgb(0, 0, 0); line-height: 1;">
+                <span style="font-weight: 400;">BEST</span><br/>
+                <span style="font-weight: 700;">SELLER</span>
+            </div>
+        </div>
+        <div style="margin-left: 600px; width: 900px; overflow: hidden; position: relative; height: 450px;">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                    <li data-target="#myCarousel" data-slide-to="4"></li>
+                </ol>
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner">
+                    <div class="item active">
+                        <img src="../images/best seller/NY_STYLE_CHEESEBURGER.jpg" alt="Go Solo" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>NY STYLE</h3>
+                            <p>CHEESEBURGER</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/NACHOS.jpg" alt="Make it Double" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>NACHOS</h3>
+                            <p>ORIGINAL CHICKEN FINGERS</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/FRIED_CHICKEN_PLATE.jpg" alt="Cheeseburger" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>FRIED CHICKEN</h3>
+                            <p>PLATE</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/CHICKEN_SANDWICHES_DALAWA.jpg" alt="Classic Cheeseburger" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>CHICKEN SANDWICH</h3>
+                            <p>DALAWA</p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <img src="../images/best seller/CAJUN_PASTIU.jpg" alt="New York's Finest" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <div class="carousel-caption">
+                            <h3>CAJU PASTIU</h3>
+                            <p>PREMIUM BURGER</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+ 
+    <!-- ABOUT US -->
+    <div id="about-section" style="width: 1920px; height: 1080px; position: relative; background: #ffffff">
+        <div style="width: 1672px; height: 981px; left: 131px; top: 99px; position: absolute; background: #FFCFCF"></div>
+        <div style="width: 622px; height: 422px; left: 0px; top: 11px; position: absolute; opacity: 0.20" class="about-element delay-1"></div>
+        
+        <div style="width: 366px; height: 287px; left: 579px; top: 214px; position: absolute; text-align: right; color: black; font-size: 64px; font-family: Montserrat; font-weight: 700; line-height: 64px; word-wrap: break-word; text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)" class="about-element right delay-2">
+            THIS IS<br/>WHO<br/>WE<br/>ARE
+        </div>
+        
+        <div style="width: 344px; height: 179px; left: 981px; top: 511px; position: absolute; color: black; font-size: 64px; font-family: Montserrat; font-weight: 700; line-height: 64px; word-wrap: break-word; text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)" class="about-element left delay-3">
+            IT'S MORE<br/>THAN<br/>WINGS
+        </div>
+        
+        <div style="width: 804px; left: 579px; top: 803px; position: absolute; color: black; font-size: 64px; font-family: Montserrat; font-weight: 700; line-height: 64px; word-wrap: break-word; text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)" class="about-element delay-4">
+            POWERED BY PASSION
+        </div>
+        
+        <div style="width: 575px; height: 348px; left: 981px; top: 197px; position: absolute; color: rgba(0, 0, 0, 0.85); font-size: 28px; font-family: Lora; font-weight: 400; line-height: 28px; word-wrap: break-word" class="about-element left delay-2">
+            <br/>Buffalo's Wings N' Things isn't just a restaurant. We're the team that brings the heat, the heart, and the hustle — one saucy bite at a time. Buffalo's Wings N' Things Assembly Grounds at The Rise opened its doors in 2019 with one goal in mind: to serve food that fires up your taste buds and brings people together.
+        </div>
+        
+        <div style="width: 575px; height: 348px; left: 370px; top: 488px; position: absolute; text-align: right; color: rgba(0, 0, 0, 0.85); font-size: 28px; font-family: Lora; font-weight: 400; line-height: 28px; word-wrap: break-word" class="about-element right delay-3">
+            <br/>We're not just known for our wings we're known for our saucy attitude. From our signature Champion Buffalo wings to hearty rice meals and game-day favorites, everything we serve is made fresh, bold, and packed with flavor. We believe good food should be exciting, satisfying, and something worth coming back for.
+        </div>
+        
+        <div style="width: 890px; height: 348px; left: 536px; top: 858px; position: absolute; text-align: center; color: rgba(0, 0, 0, 0.85); font-size: 28px; font-family: Lora; font-weight: 400; line-height: 28px; word-wrap: break-word" class="about-element delay-5">
+            <br/>Behind the scenes, we're a tight-knit team with a shared love for great food and great service. We take pride in creating a space where regulars feel at home, newcomers feel welcome, and every plate tells our story.
+        </div>
+        
+        <img style="width: 374px; height: 256px; left: 272px; top: 214px; position: absolute" src="/main/images/main page/card4.jpg" class="about-element left delay-1" />
+        <img style="width: 359px; height: 253px; left: 1361px; top: 501px; position: absolute" src="/main/images/main page/card1.jpg" class="about-element right delay-3" />
+        
+        <div style="width: 687.03px; height: 0px; left: 257.99px; top: 498px; position: absolute; outline: 3px black solid; outline-offset: -1.50px" class="about-element delay-2"></div>
+        <div style="width: 739px; height: 0px; left: 981px; top: 772px; position: absolute; outline: 3px black solid; outline-offset: -1.50px" class="about-element delay-4"></div>
+    </div>
+
+    
+    <!-- FOOTER -->
+    <footer style="background-color: #00809D; color: white; padding: 40px 20px;">
+        <div style="max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;">
+            
+            <!-- Logo -->
+            <div style="flex: 1; min-width: 150px; text-align: center;">
+                <img src="../images/logo.png" alt="B Logo" style="height: 250px;">
+            </div>
+            
+            <!-- Socials / Contact Info -->
+            <div style="flex: 1; min-width: 250px; text-align: center;">
+                <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700;">GET IN TOUCH</h4>
+                
+                <!-- Facebook -->
+                <p style="margin: 10px 0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 5 3.66 9.13 8.44 9.88v-6.99h-2.54V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.23.2 2.23.2v2.46h-1.26c-1.24 0-1.62.77-1.62 1.56V12h2.76l-.44 2.89h-2.32v6.99C18.34 21.13 22 17 22 12z" fill="#fff"/>
+                    </svg>
+                    <a href="https://www.facebook.com/bwntPH/" target="_blank" style="color: white; text-decoration: underline;">
+                        Follow us on Facebook
+                    </a>
+                </p>
+                
+                <!-- Instagram -->
+                <p>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.66 0 3 1.34 3 3v10c0 1.66-1.34 3-3 3H7c-1.66 0-3-1.34-3-3V7c0-1.66 1.34-3 3-3h10zm-5 3c-2.76 0-5 2.24-5 5s2.24 5 5 5a5 5 0 100-10zm0 2c1.66 0 3 1.34 3 3s-1.34 3-3 3a3 3 0 110-6zm4.5-3a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" fill="#fff"/>
+                    </svg>
+                    <a href="https://www.instagram.com/bwntph/?fbclid=IwY2xjawLM055leHRuA2FlbQIxMABicmlkETFyS3VGd3Q3bnJwRW9jaU1EAR4-yJ_e531h3W-Csfir6bSqwjT1ARzkurkUULt5thDLrj2lZ0t1yK8ybLsZcQ_aem_qgkWY_XraOSRrsBI6e16LA#" target="_blank" style="color: white; text-decoration: underline;">
+                        Follow us on Instagram
+                    </a>
+                </p>
+
+                <!-- TikTok -->
+                <p>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="vertical-align: middle; margin-right: 5px;">
+                        <path d="M12 2v2c1.657 0 3 1.343 3 3h2c0-2.757-2.243-5-5-5zM9 4c-3.866 0-7 3.134-7 7s3.134 7 7 7c2.387 0 4.5-1.19 5.775-3.018l-1.65-1.158A4.99 4.99 0 019 16c-2.757 0-5-2.243-5-5s2.243-5 5-5V4z" fill="#fff"/>
+                    </svg>
+                    <a href="https://www.tiktok.com/@bwntph?fbclid=IwY2xjawLM2MRleHRuA2FlbQIxMABicmlkETFyS3VGd3Q3bnJwRW9jaU1EAR4HOBenXXn82ZpXL4shKyCvFS-hBMNbDX2XdY-7Dq4PHkTlNUGWNOU9pkPGWw_aem_TZR-uWEMgpBnfjjSUVCfTw" target="_blank" style="color: white; text-decoration: underline;">
+                        Follow us on TikTok
+                    </a>
+                </p>
+            </div>
+            
+            <!-- Newsletter Signup -->
+            <div style="flex: 1; min-width: 280px; text-align: center;">
+                <h4 style="font-family: 'Montserrat', sans-serif; font-weight: 700;">NEWSLETTER SIGN-UP</h4>
+                <p style="font-size: 14px;">Subscribe to our newsletter to receive our offers</p>
+                <form id="footer-newsletter-form" style="margin-top: 10px; display: flex; justify-content: center;">
+                    <input type="email" name="email" placeholder="Your email address" required
+                        style="padding: 10px; border-radius: 9999px 0 0 9999px; border: none; outline: none; width: 200px;">
+                    <button type="submit"
+                            style="padding: 10px 20px; background: #FF6060; color: white; border: none; border-radius: 0 9999px 9999px 0; font-weight: 600; cursor: pointer;">
+                        Subscribe
+                    </button>
+                </form>
+                <p id="footer-newsletter-msg" style="margin-top: 10px; font-size: 13px;"></p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="14" cy="14" r="14" fill="none"/>
+            <path d="M14 20V8M14 8L8 14M14 8L20 14" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+    </button>
+
+    <!-- CAROUSEL SCRIPT -->
+    <script>
+        const carousel = document.querySelector('.carousel-container');
+        const items = document.querySelectorAll('.carousel-item');
+        const dots = document.querySelectorAll('.carousel-dot');
+        let currentIndex = 0;
+        let isAnimating = false;
+
+        function updateCarousel() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            items.forEach((item, index) => {
+                item.classList.remove('active');
+                if (index === currentIndex) {
+                    item.style.left = '50%';
+                    setTimeout(() => item.classList.add('active'), 50);
+                } else if (index === (currentIndex + 1) % items.length) {
+                    item.style.left = '150%';
+                } else {
+                    item.style.left = '-50%';
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 800); 
+        }
+
+        function nextSlide() {
+            if (isAnimating) return;
+            currentIndex = (currentIndex + 1) % items.length;
+            updateCarousel();
+        }
+
+        // Auto-advance slides every 3 seconds
+        setInterval(nextSlide, 3000);
+
+        // Click handlers for dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                if (isAnimating || currentIndex === index) return;
+                currentIndex = index;
+                updateCarousel();
+            });
+        });
+
+        // Initial setup
+        updateCarousel();
+
+        // SCROLL-TRIGGERED ANIMATIONS FOR ABOUT SECTION
+        const aboutSection = document.getElementById('about-section');
+        const aboutElements = document.querySelectorAll('.about-element');
+        let aboutAnimationTriggered = false;
+
+        // Intersection Observer to detect when about section enters viewport
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -20% 0px', 
+            threshold: 0
+        };
+
+        const aboutObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !aboutAnimationTriggered) {
+                    aboutAnimationTriggered = true;
+                    
+                    aboutElements.forEach(element => {
+                        element.classList.add('animate');
+                    });
+                }
+            });
+        }, observerOptions);
+
+        aboutObserver.observe(aboutSection);
+
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (!aboutAnimationTriggered) {
+                    const aboutRect = aboutSection.getBoundingClientRect();
+                    const windowHeight = window.innerHeight;
+                    
+                    if (aboutRect.top < windowHeight * 0.8 && aboutRect.bottom > windowHeight * 0.2) {
+                        aboutAnimationTriggered = true;
+                        
+                        aboutElements.forEach(element => {
+                            element.classList.add('animate');
+                        });
+                    }
+                }
+            }, 10);
+        });
+
+        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+
+    <script>
+      document.getElementById('checkoutForm').onsubmit = async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+          name: form.name.value,
+          email: form.email.value,
+          address: form.address.value,
+          city: form.city.value,
+          province: form.province.value,
+          postal: form.postal.value,
+          cardNumber: form.cardNumber.value,
+          expiry: form.expiry.value,
+          cvc: form.cvc.value,
+          cart: [{ name: 'Sample Item', quantity: 1, subtotal: 100 }] // Placeholder cart
+        };
+        document.getElementById('checkoutMsg').textContent = 'Processing...';
+        try {
+          const res = await fetch('http://127.0.0.1:3000/api/payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+          const result = await res.json();
+          if(res.ok) {
+            document.getElementById('checkoutMsg').textContent = 'Payment successful!';
+          } else {
+            document.getElementById('checkoutMsg').textContent = result.error || 'Payment failed.';
+          }
+        } catch (err) {
+          document.getElementById('checkoutMsg').textContent = 'Network error.';
+        }
+      }
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const aboutUsLink = document.getElementById('about-us-link');
+        if (aboutUsLink) {
+          aboutUsLink.addEventListener('click', function(e) {
+            // Check if already on the main page (sample.html)
+            if (window.location.pathname.includes('sample.html')) {
+              e.preventDefault();
+              const aboutSection = document.getElementById('about-section');
+              if (aboutSection) {
+                aboutSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }
+            // If not on main page, let the link work as normal
+          });
+        }
+      });
+    </script>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- Cart Sidebar -->
+    <div id="cartSidebar" class="cart-sidebar">
+      <div class="cart-header">
+        <button class="close-cart" onclick="toggleCart()" style="position: absolute; left: 18px; top: 18px; right: auto; color: #fff; background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.7; transition: opacity 0.2s;">&times;</button>
+        <span class="cart-icon" style="margin-left: 40px;">🛒</span>
+        Your Cart
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Total:</span>
+          <span>₱<span id="cartTotal">0.00</span></span>
+        </div>
+        <button class="checkout-btn" onclick="checkoutCart()">Checkout</button>
+      </div>
+    </div>
+
+    <!-- Top Cart Icon -->
+    <div id="cartIconWrapper" onclick="toggleCart()" style="position: fixed; top: 20px; right: 20px; cursor: pointer; z-index: 2001;">
+      <span style="font-size: 28px;">🛒</span>
+      <span id="cartCount" style="position: absolute; top: -5px; right: -10px; background: #c0392b; color: white; font-size: 14px; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;">0</span>
+    </div>
+
+    <!-- Modal -->
+    <div id="itemModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-left">
+          <img id="modalImage" src="" alt="Product Image">
+        </div>
+        <div class="modal-right">
+          <div class="modal-name" id="modalImageName"></div>
+          <p id="modalDescription"></p>
+          <div id="modalPrice"></div>
+          <div class="modal-section">
+            <strong>Choose Quantity:</strong><br>
+            <div class="quantity-options">
+              <button onclick="selectQuantity(4)">4 pcs</button>
+              <button onclick="selectQuantity(8)">8 pcs</button>
+              <button onclick="selectQuantity(12)">12 pcs</button>
+            </div>
+          </div>
+          <div class="modal-section">
+            <strong>Type:</strong><br>
+            <div class="type-options">
+              <button onclick="selectType('Wings')">Wings</button>
+              <button onclick="selectType('Boneless Chicken')">Boneless Chicken</button>
+              <button onclick="selectType('Chicken Fingers')">Chicken Fingers</button>
+            </div>
+          </div>
+          <div class="cart-control">
+            <button onclick="adjustCount(-1)">−</button>
+            <input type="number" id="itemCount" value="1" min="1" max="99" oninput="validateCount()" />
+            <button onclick="adjustCount(1)">+</button>
+          </div>
+          <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    // Cart logic from wings.html
+    const prices = { 4: 229, 8: 454, 12: 678 };
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let selectedQuantity = 4;
+    let selectedType = "Wings";
+    function openModal(wings) {
+      document.getElementById('modalImage').src = '/main/images/wings/' + wings.image;
+      document.getElementById('modalImageName').innerText = wings.name;
+      document.getElementById('modalDescription').innerText = wings.description;
+      document.getElementById('modalPrice').innerText = `₱${prices[selectedQuantity]}`;
+      document.getElementById('itemCount').value = 1;
+      selectedQuantity = 4;
+      selectedType = "Wings";
+      updateButtons();
+      document.getElementById('itemModal').style.display = 'flex';
+    }
+    function closeModal() {
+      document.getElementById('itemModal').style.display = 'none';
+    }
+    function selectQuantity(quantity) {
+      selectedQuantity = quantity;
+      updatePrice();
+      updateButtons();
+    }
+    function selectType(type) {
+      selectedType = type;
+      updateButtons();
+    }
+    function adjustCount(change) {
+      const input = document.getElementById('itemCount');
+      let current = parseInt(input.value) || 1;
+      current = Math.max(1, Math.min(99, current + change));
+      input.value = current;
+    }
+    function validateCount() {
+      const input = document.getElementById('itemCount');
+      let value = parseInt(input.value) || 1;
+      input.value = Math.max(1, Math.min(99, value));
+    }
+    function updatePrice() {
+      document.getElementById('modalPrice').innerText = `₱${prices[selectedQuantity]}`;
+    }
+    function updateButtons() {
+      document.querySelectorAll('.quantity-options button').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.startsWith(selectedQuantity));
+      });
+      document.querySelectorAll('.type-options button').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent === selectedType);
+      });
+    }
+    function addToCart() {
+      const count = parseInt(document.getElementById('itemCount').value) || 1;
+      const name = document.getElementById('modalImageName').innerText;
+      const image = document.getElementById('modalImage').src;
+      const price = prices[selectedQuantity];
+      const subtotal = price * count;
+      const item = { name, image, type: selectedType, quantity: selectedQuantity, count, price, subtotal };
+      cart.push(item);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartDisplay();
+      openCart();
+      closeModal();
+    }
+    function updateCartDisplay() {
+      const cartItemsContainer = document.getElementById("cartItems");
+      const cartTotalElement = document.getElementById("cartTotal");
+      const cartCountElement = document.querySelector("#cartIconWrapper #cartCount");
+      cartItemsContainer.innerHTML = "";
+      let total = 0;
+      let countAllItems = 0;
+      cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" class="cart-item-img">
+          <div class="cart-item-details">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-meta">${item.type} | ${item.quantity} pcs x ${item.count}</div>
+            <div class="cart-item-price">₱${item.subtotal.toFixed(2)}</div>
+          </div>
+          <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
+        `;
+        cartItemsContainer.appendChild(div);
+        total += item.subtotal;
+        countAllItems += item.count;
+      });
+      cartTotalElement.textContent = total.toFixed(2);
+      cartCountElement.textContent = countAllItems;
+    }
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartDisplay();
+    }
+    function toggleCart() {
+      const sidebar = document.getElementById("cartSidebar");
+      const cartIcon = document.getElementById("cartIconWrapper");
+      sidebar.classList.toggle("open");
+      setTimeout(() => {
+        if (sidebar.classList.contains("open")) {
+          cartIcon.classList.add("cart-hidden");
+        } else {
+          cartIcon.classList.remove("cart-hidden");
+        }
+      }, 10);
+    }
+    function openCart() {
+      const sidebar = document.getElementById("cartSidebar");
+      const cartIcon = document.getElementById("cartIconWrapper");
+      sidebar.classList.add("open");
+      setTimeout(() => { cartIcon.classList.add("cart-hidden"); }, 10);
+    }
+    function checkoutCart() {
+      if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+      }
+      window.location.href = 'checkout.html';
+    }
+    window.onclick = function(event) {
+      const modal = document.getElementById('itemModal');
+      if (event.target === modal) closeModal();
+    };
+    updateCartDisplay();
+    window.addEventListener('DOMContentLoaded', function() {
+      const sidebar = document.getElementById("cartSidebar");
+      const cartIcon = document.getElementById("cartIconWrapper");
+      if (sidebar.classList.contains("open")) {
+        cartIcon.classList.add("cart-hidden");
+      } else {
+        cartIcon.classList.remove("cart-hidden");
+      }
+    });
+    </script>
+</body>
+</html>

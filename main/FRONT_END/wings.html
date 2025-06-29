@@ -616,6 +616,10 @@
               <button onclick="selectType('Chicken Fingers')">Chicken Fingers</button>
             </div>
           </div>
+          <div class="modal-section" style="margin-bottom: 12px;">
+            <strong style="font-size: 13px;">Note (optional):</strong><br>
+            <textarea id="itemNote" placeholder="e.g., Remove onions" rows="2" style="width: 90%; min-height: 36px; max-height: 60px; resize: none; padding: 7px 10px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; margin-top: 4px; box-sizing: border-box;"></textarea>
+          </div>
           <div class="cart-control">
             <button onclick="adjustCount(-1)">−</button>
             <input type="number" id="itemCount" value="1" min="1" max="99" oninput="validateCount()" />
@@ -738,6 +742,7 @@
       document.getElementById('modalDescription').innerText = wings.description;
       document.getElementById('modalPrice').innerText = `₱${prices[selectedQuantity]}`;
       document.getElementById('itemCount').value = 1;
+      document.getElementById('itemNote').value = '';
       selectedQuantity = 4;
       selectedType = "Wings";
       updateButtons();
@@ -791,8 +796,9 @@
       const image = document.getElementById('modalImage').src;
       const price = prices[selectedQuantity];
       const subtotal = price * count;
+      const note = document.getElementById('itemNote').value;
 
-      const item = { name, image, type: selectedType, quantity: selectedQuantity, count, price, subtotal };
+      const item = { name, image, type: selectedType, quantity: selectedQuantity, count, price, subtotal, note };
       cart.push(item);
 
       // Persist to localStorage
@@ -819,6 +825,7 @@
           <img src="${item.image}" alt="${item.name}" class="cart-item-img">
           <div class="cart-item-details">
             <div class="cart-item-name">${item.name}</div>
+            ${item.note ? `<div class='cart-item-note' style='font-size:12px;color:#9e0909;margin-bottom:2px;'>Note: ${item.note}</div>` : ''}
             <div class="cart-item-meta">${item.type} | ${item.quantity} pcs x ${item.count}</div>
             <div class="cart-item-price">₱${item.subtotal.toFixed(2)}</div>
           </div>

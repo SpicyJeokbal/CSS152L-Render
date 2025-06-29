@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fafbfc;
+      color: #222;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 56px;
+      margin-bottom: 40px;
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: #1a1a1a;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .checkout-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 32px rgba(156,9,9,0.10);
+      padding: 36px 100px 28px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 120px;
+    }
+
+    .cart-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .cart-item-card {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background: #faf9f9;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(156,9,9,0.07);
+      padding: 18px 20px;
+      gap: 18px;
+      border: 1.5px solid #f3eaea;
+    }
+
+    .cart-item-card img {
+      width: 72px;
+      height: 72px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1.5px solid #eee;
+      background: #fff;
+      flex-shrink: 0;
+    }
+
+    .cart-item-details {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cart-item-details strong {
+      font-size: 1.13rem;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 2px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .cart-item-meta {
+      font-size: 1.01rem;
+      color: #666;
+      margin-bottom: 2px;
+    }
+
+    .cart-item-price {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: #9e0909;
+      margin-top: 2px;
+    }
+
+    .cart-total {
+      text-align: right;
+      margin-top: 10px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #9e0909;
+      letter-spacing: 0.01em;
+      padding-top: 10px;
+      border-top: 1.5px solid #eee;
+    }
+
+    .notice {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1.1rem;
+      color: #a00;
+    }
+
+    .back-link {
+      display: block;
+      margin: 36px auto 0 auto;
+      text-align: center;
+      color: #9e0909;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.08rem;
+      font-family: 'Montserrat', sans-serif;
+      transition: color 0.3s, text-decoration 0.3s;
+      width: fit-content;
+    }
+    .back-link:hover {
+      color: #5c0000;
+      text-decoration: underline;
+    }
+
+    .pay-button {
+      display: block;
+      margin: 28px auto 0 auto;
+      padding: 15px 0;
+      background-color: #9e0909;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.15rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      width: 220px;
+      box-shadow: 0 2px 8px rgba(156, 9, 9, 0.08);
+      letter-spacing: 0.01em;
+      transition: background 0.18s;
+    }
+    .pay-button:hover {
+      background-color: #5c0000;
+    }
+
+    @media (max-width: 600px) {
+      .checkout-container {
+        max-width: 98vw;
+        padding: 12px 1vw 12px 1vw;
+      }
+      .cart-item-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 14px 8px;
+      }
+      .pay-button {
+        width: 100%;
+        font-size: 1.05rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Checkout</h1>
+  <div class="checkout-container" id="checkoutContainer">
+    <!-- Cart items will be injected here -->
+  </div>
+  <a href="/main/SOFT_ENG_PROJECT_HTML/frontend_wings_things/wings.html" class="back-link">&larr; Back to Menu</a>
+  
+  <!-- Pay Now Button -->
+  <a href="payment.html" class="pay-button">Pay Now</a>
+
+  <script>
+    // Retrieve cart data from localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    const container = document.getElementById('checkoutContainer');
+
+    if (cart.length === 0) {
+      container.innerHTML = '<p class="notice">Your cart is empty. Please add items from the menu.</p>';
+    } else {
+      // Build cart items list
+      let total = 0;
+      const grid = document.createElement('div');
+      grid.className = 'cart-items-grid';
+
+      cart.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'cart-item-card';
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}">
+          <div class="cart-item-details">
+            <strong>${item.name}</strong>
+            <div class="cart-item-meta">${item.type} | ${item.quantity} pcs × ${item.count}</div>
+            <div class="cart-item-price">₱${item.subtotal.toFixed(2)}</div>
+          </div>
+        `;
+        total += item.subtotal;
+        grid.appendChild(div);
+      });
+
+      container.appendChild(grid);
+
+      // Add total price display
+      const totalDiv = document.createElement('div');
+      totalDiv.className = 'cart-total';
+      totalDiv.textContent = `Total: ₱${total.toFixed(2)}`;
+      container.appendChild(totalDiv);
+    }
+  </script>
+</body>
+</html>

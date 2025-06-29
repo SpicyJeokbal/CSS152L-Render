@@ -24,7 +24,13 @@ app.use(cors({
     'http://localhost:5502',
     'http://127.0.0.1:3001',  
     'http://localhost:3001',
+<<<<<<< HEAD:main/BACK_END/backend_wings_things/server.js
     'http://localhost:3000'
+=======
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://css152l.onrender.com'
+>>>>>>> ca9720c09ce2e8a2ffa93b30f8ef9c5c7ebd46e9:main/SOFT_ENG_PROJECT_HTML/backend_wings_things/server.js
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type']

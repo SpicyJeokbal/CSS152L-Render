@@ -298,10 +298,13 @@
               <button onclick="selectType('Chicken Fingers')">Chicken Fingers</button>
             </div>
           </div>
+<<<<<<< HEAD
           <div class="modal-section">
             <strong>Note (optional):</strong><br>
             <input type="text" id="itemNote" placeholder="e.g., Remove onions" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; font-size: 14px; margin-top: 4px;">
           </div>
+=======
+>>>>>>> e2e408548226b5b52d71be90a17b532f7f61b6e8
           <div class="cart-control">
             <button onclick="adjustCount(-1)">−</button>
             <input type="number" id="itemCount" value="1" min="1" max="99" oninput="validateCount()" />
@@ -327,7 +330,10 @@
       selectedQuantity = 4;
       selectedType = "Wings";
       updateButtons();
+<<<<<<< HEAD
       document.getElementById('itemNote').value = '';
+=======
+>>>>>>> e2e408548226b5b52d71be90a17b532f7f61b6e8
       document.getElementById('itemModal').style.display = 'flex';
     }
     function closeModal() {
@@ -370,8 +376,12 @@
       const image = document.getElementById('modalImage').src;
       const price = prices[selectedQuantity];
       const subtotal = price * count;
+<<<<<<< HEAD
       const note = document.getElementById('itemNote').value;
       const item = { name, image, type: selectedType, quantity: selectedQuantity, count, price, subtotal, note };
+=======
+      const item = { name, image, type: selectedType, quantity: selectedQuantity, count, price, subtotal };
+>>>>>>> e2e408548226b5b52d71be90a17b532f7f61b6e8
       cart.push(item);
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartDisplay();
@@ -394,7 +404,10 @@
             <div class="cart-item-name">${item.name}</div>
             <div class="cart-item-meta">${item.type} | ${item.quantity} pcs x ${item.count}</div>
             <div class="cart-item-price">₱${item.subtotal.toFixed(2)}</div>
+<<<<<<< HEAD
             ${item.note ? `<div class="cart-item-note" style="font-size:12px;color:#9e0909;margin-bottom:2px;">Note: ${item.note}</div>` : ''}
+=======
+>>>>>>> e2e408548226b5b52d71be90a17b532f7f61b6e8
           </div>
           <button class="cart-item-remove" onclick="removeFromCart(${index})">Remove</button>
         `;

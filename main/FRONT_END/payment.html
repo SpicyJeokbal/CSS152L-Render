@@ -272,7 +272,7 @@
   </style>
 </head>
 <body>
-  <a href="checkout.html" class="back-link">&larr; Back to Checkout</a>
+  <a href="/main/FRONT_END/checkout.html" class="back-link">&larr; Back to Checkout</a>
   
   <div class="container">
     <section class="payment-form">
@@ -332,6 +332,14 @@
     </aside>
   </div>
 
+  <!-- Thank You Modal -->
+  <div id="thankYouModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:9999; justify-content:center; align-items:center;">
+    <div style="background:white; border-radius:16px; padding:48px 32px; max-width:90vw; width:400px; text-align:center; box-shadow:0 8px 32px rgba(156,9,9,0.15);">
+      <h2 style="color:#9e0909; font-family:'Montserrat',sans-serif; font-size:2rem; margin-bottom:18px;">Thank You!</h2>
+      <p style="font-size:1.15rem; color:#222; margin-bottom:28px;">Your payment was successful.<br>Your order is being processed.</p>
+      <button onclick="closeThankYouModal()" style="padding:12px 32px; background:#9e0909; color:white; border:none; border-radius:8px; font-size:1.08rem; font-family:'Montserrat',sans-serif; font-weight:600; cursor:pointer;">Close</button>
+    </div>
+  </div>
   <script>
     // Load cart items from localStorage
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -409,26 +417,35 @@
         messageBox.textContent = 'Processing payment... please wait.';
 
         // Send POST request to backend payment API
-        const response = await fetch('/api/payment', {
+        //https://css152l.onrender.com/api/payment
+        const response = await fetch('http://localhost:3000/api/payment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         });
 
+        let result = null;
+        try {
+          result = await response.json();
+        } catch {
+          result = {};
+        }
         if (!response.ok) {
-          const err = await response.json();
-          throw new Error(err.error || 'Payment failed');
+          // Show the whole result object for debugging
+          throw new Error(result.error || JSON.stringify(result) || 'Payment failed');
         }
 
-        const result = await response.json();
-
         // Payment success
-        messageBox.textContent = 'Payment successful! Redirecting...';
+        messageBox.textContent = 'Payment successful!';
 
         // Clear cart and redirect after a short delay
         localStorage.removeItem('cart');
+        cart.length = 0;
+        console.log('Cart removed from localStorage and cleared in memory.');
+        renderOrderSummary();
+        paymentForm.reset();
         setTimeout(() => {
-          window.location.href = 'thank-you.html'; // Redirect to a thank you page
+          showThankYouModal();
         }, 2000);
 
       } catch (error) {
@@ -436,6 +453,13 @@
         errorMessageBox.textContent = `Error: ${error.message}`;
       }
     });
+
+    function showThankYouModal() {
+      document.getElementById('thankYouModal').style.display = 'flex';
+    }
+    function closeThankYouModal() {
+      document.getElementById('thankYouModal').style.display = 'none';
+    }
   </script>
 </body>
 </html>

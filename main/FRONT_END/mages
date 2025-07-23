@@ -484,7 +484,7 @@
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
                     <div class="item active">
-                        <img src="mages/best seller/NY_STYLE_CHEESEBURGER.jpg" alt="Go Solo" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
+                        <img src="images/best seller/NY_STYLE_CHEESEBURGER.jpg" alt="Go Solo" style="width:100%; height:450px; object-fit:cover; border-radius:20px;">
                         <div class="carousel-caption">
                             <h3>NY STYLE CHEESEBURGER</h3>
                             <p>Juicy beef, melted cheese, NYC attitude in every bite</p>

@@ -308,7 +308,7 @@
           <input type="text" id="postal" name="postal" placeholder="1000" required />
         </div>
 
-        <div class="card-section">
+        <!-- <div class="card-section">
           <label for="cardNumber">Credit Card Number</label>
           <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required pattern="[\d ]{13,19}" inputmode="numeric" />
 
@@ -317,7 +317,7 @@
 
           <label for="cvc">CVC</label>
           <input type="text" id="cvc" name="cvc" placeholder="123" maxlength="4" pattern="\d{3,4}" required />
-        </div>
+        </div> -->
 
         <button type="submit" class="pay-button">Pay Now</button>
         <div id="message" class="message" aria-live="polite"></div>
@@ -400,15 +400,12 @@
         city: paymentForm.city.value.trim(),
         province: paymentForm.province.value.trim(),
         postal: paymentForm.postal.value.trim(),
-        cardNumber: paymentForm.cardNumber.value.trim(),
-        expiry: paymentForm.expiry.value.trim(),
-        cvc: paymentForm.cvc.value.trim(),
         cart: cart
       };
 
       // Basic client-side validation
       if (!formData.name || !formData.email || !formData.address || !formData.city
-          || !formData.province || !formData.postal || !formData.cardNumber || !formData.expiry || !formData.cvc) {
+          || !formData.province || !formData.postal) {
         errorMessageBox.textContent = 'Please complete all fields.';
         return;
       }
@@ -430,13 +427,20 @@
         } catch {
           result = {};
         }
-        if (!response.ok) {
+        /* if (!response.ok) {
           // Show the whole result object for debugging
           throw new Error(result.error || JSON.stringify(result) || 'Payment failed');
         }
 
         // Payment success
-        messageBox.textContent = 'Payment successful!';
+        messageBox.textContent = 'Payment successful!'; */
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Payment failed');
+        }
+
+        // Redirect user to GCash
+        window.location.href = result.redirectUrl;
 
         // Clear cart and redirect after a short delay
         localStorage.removeItem('cart');
